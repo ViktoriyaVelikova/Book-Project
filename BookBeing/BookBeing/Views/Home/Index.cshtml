@@ -1,0 +1,33 @@
+﻿@model List<BookListingViewModel>
+@{
+    ViewData["Title"] = "Book Being";
+}
+
+<div class="card bg-light text-white" id="header-index">
+    <img class="card-img" src="/book.jpg" alt="Card image">
+    <div class="card-img-overlay">
+        <h5 class="card-title">Welcome to our free space for giving or selling books.</h5>
+        <p class="card-text">Here you can give or sell the books you keep at home and you do not know what to do with them.</p>
+        @if (!Model.Any())
+        {
+            <p>At the moment we do not have registered books. Be the first to register.</p>
+            <p class="lead">
+                <a asp-controller="Books" asp-action="Add" class="btn btn-light" role="button">Add Book</a>
+            </p>
+        }
+    </div>
+</div>
+
+
+@foreach (var book in Model)
+{
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="@book.ImageUrl" alt="@book.Title - @book.Author">
+        <div class="card-body">
+            <h5 class="card-title">@book.Title - @book.Author</h5>
+            <p class="card-text">@book.Publisher</p>
+            <p class="card-text">@book.Description</p>
+            <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="btn btn-primary">Details</a>
+        </div>
+    </div>
+}
