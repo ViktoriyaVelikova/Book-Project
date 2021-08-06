@@ -4,16 +4,15 @@
 <div class="row" id="search">
     <form method="get" class="form-inline col-md-4 ">
         <input asp-for="SearchTerms" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-
     </form>
-    <form method="get" class="form-inline col-md-4 ">
+    @*<form method="get" class="form-inline col-md-4 ">
         <input asp-for="SearchTerms" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
 
     </form>
     <form method="get" class="form-inline col-md-4 ">
         <input asp-for="SearchTerms" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
 
-    </form>
+    </form>*@
 </div>
 
 @foreach (var book in Model.Books)
