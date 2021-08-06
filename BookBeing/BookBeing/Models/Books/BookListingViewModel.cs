@@ -1,5 +1,4 @@
 ﻿
-
 namespace BookBeing.Models.Books
 {
     public class BookListingViewModel

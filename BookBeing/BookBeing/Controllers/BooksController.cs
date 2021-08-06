@@ -54,12 +54,19 @@ namespace BookBeing.Controllers
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All()
+        public IActionResult All(string searchTerm)
         {
+            var carsQuery = this.data.Books.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                carsQuery = carsQuery.Where(b=>b.Title.Contains())
+            }
+
             var books = this.data
                 .Books
                 .Where(b => b.Taken == false)
-                .OrderByDescending(b=>b.Id)
+                .OrderByDescending(b => b.Id)
                 .Select(b => new BookListingViewModel
                 {
                     Id = b.Id,
@@ -71,7 +78,11 @@ namespace BookBeing.Controllers
                 })
                 .ToList();
 
-            return View(books);
+            return View(new AllBooksQueryModel
+            {
+                Books = books,
+                SearchTerms = searchTerm
+            });
         }
         private IEnumerable<BookCategoryViewModel> GetBooksCategories()
         {

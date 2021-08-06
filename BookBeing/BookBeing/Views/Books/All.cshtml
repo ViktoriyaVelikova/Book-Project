@@ -1,6 +1,22 @@
-﻿@model IEnumerable<BookListingViewModel>
+﻿@model AllBooksQueryModel
 
-@foreach (var book in Model)
+
+<div class="row" id="search">
+    <form method="get" class="form-inline col-md-4 ">
+        <input asp-for="SearchTerms" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+
+    </form>
+    <form method="get" class="form-inline col-md-4 ">
+        <input asp-for="SearchTerms" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+
+    </form>
+    <form method="get" class="form-inline col-md-4 ">
+        <input asp-for="SearchTerms" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+
+    </form>
+</div>
+
+@foreach (var book in Model.Books)
 {
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="@book.ImageUrl" alt="@book.Title - @book.Author">
