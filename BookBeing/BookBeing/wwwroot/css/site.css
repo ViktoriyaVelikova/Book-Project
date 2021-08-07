@@ -10,7 +10,6 @@ a.navbar-brand {
 
 #header-index {
     margin-bottom: 25px;
-
 }
 
     #header-index h5 {
@@ -93,6 +92,7 @@ body {
 #search {
     margin-bottom: 25px;
     margin-top: 25px;
+    margin-left: 10px;
 }
 
 .index-container .card {

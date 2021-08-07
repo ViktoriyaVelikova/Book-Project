@@ -55,15 +55,20 @@ namespace BookBeing.Controllers
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All(string searchTerms)
+        public IActionResult All(string searchTerms, string category)
         {
             var carsQuery = this.data.Books.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(category))
+            {
+                carsQuery = carsQuery
+                    .Where(b => b.Category.Name == category);
+            }
 
             if (!string.IsNullOrWhiteSpace(searchTerms))
             {
                 carsQuery = carsQuery
                     .Where(b => (
-                    b.Title + " " + b.Author.Name).ToLower().Contains(searchTerms.ToLower()) ||
+                    b.Title + " " + b.Author.Name + " " + b.Publisher.Name).ToLower().Contains(searchTerms.ToLower()) ||
                     b.Description.ToLower().Contains(searchTerms.ToLower()));
             }
 
@@ -78,13 +83,16 @@ namespace BookBeing.Controllers
                     Author = b.Author,
                     Publisher = b.Publisher,
                     ImageUrl = b.ImageUrl,
-                    Price=b.Price,
+                    Price = b.Price,
                     Description = b.Description
                 })
                 .ToList();
 
+            var booksCategories = this.data.Categories.Select(c => c.Name).ToList();
+
             return View(new AllBooksQueryModel
             {
+                Categories = booksCategories,
                 Books = books,
                 SearchTerms = searchTerms
             });
