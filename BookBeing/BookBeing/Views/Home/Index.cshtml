@@ -18,16 +18,18 @@
     </div>
 </div>
 
-
-@foreach (var book in Model)
-{
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="@book.ImageUrl" alt="@book.Title - @book.Author">
-        <div class="card-body">
-            <h5 class="card-title">@book.Title - @book.Author</h5>
-            <p class="card-text">@book.Publisher</p>
-            <p class="card-text">@book.Description</p>
-            <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="btn btn-primary">Details</a>
+<div class="index-container">
+    @foreach (var book in Model)
+    {
+        <div class="card" style="width: 18rem; display:inline-block">
+            <img class="card-img-top" src="@book.ImageUrl" alt="@book.Title - @book.Author">
+            <div class="card-body">
+                <h5 class="card-title">@book.Title - @book.Author</h5>
+                <p class="card-text">@book.Publisher</p>
+                <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="btn btn-primary">Details</a>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>
+
+
