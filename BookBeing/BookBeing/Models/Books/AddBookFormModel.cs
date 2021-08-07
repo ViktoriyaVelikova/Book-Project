@@ -1,4 +1,4 @@
-﻿
+﻿using BookBeing.Data.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using static BookBeing.Data.DataConstants;
@@ -13,10 +13,10 @@ namespace BookBeing.Models.Books
         public string Title { get; init; }
 
         [Required]
-        [StringLength(MaxLenghtAuthor, MinimumLength = MinLenghtAuthor)]
-        public string Author { get; init; }
+        public Author Author { get; init; }
 
-        public string Publisher { get; init; }
+        [Required]
+        public Publisher Publisher { get; init; }
 
         [Required]
         [Url]
@@ -24,6 +24,10 @@ namespace BookBeing.Models.Books
 
         [StringLength(int.MaxValue, MinimumLength = BookDescriptionMinLenght, ErrorMessage = "The minimum length of the description must be at least {2} chars.")]
         public string Description { get; init; }
+
+        [Required]
+        [Range(0,10000.00)]
+        public decimal Price { get; init; }
 
         [Required]
         [Display(Name = "Category")]

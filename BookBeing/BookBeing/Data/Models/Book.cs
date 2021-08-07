@@ -12,9 +12,11 @@ namespace BookBeing.Data.Models
         public string Title { get; set; }
 
         [Required]
-        public string Author { get; set; }
+        public int AuthorId { get; set; }
+        public Author Author { get; init; }
 
-        public string Publisher { get; set; }
+        public int PublisherId { get; set; }
+        public Publisher Publisher { get; init; }
 
         [Required]
         public string ImageUrl { get; set; }
@@ -26,6 +28,14 @@ namespace BookBeing.Data.Models
         public Category Category { get; init; }
 
         [Required]
+        public decimal Price { get; set; }
+
+        [Required]
+        [Range(0,10000)]
         public bool Taken { get; set; }
+
+
+
+
     }
 }

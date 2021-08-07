@@ -45,6 +45,7 @@ namespace BookBeing.Controllers
                 ImageUrl = book.ImageUrl,
                 Description = book.Description,
                 CategoryId = book.CategoryId,
+                Price = book.Price,
                 Taken = false
 
             };
@@ -62,12 +63,12 @@ namespace BookBeing.Controllers
             {
                 carsQuery = carsQuery
                     .Where(b => (
-                    b.Title + " " + b.Author).ToLower().Contains(searchTerms.ToLower()) ||
+                    b.Title + " " + b.Author.Name).ToLower().Contains(searchTerms.ToLower()) ||
                     b.Description.ToLower().Contains(searchTerms.ToLower()));
             }
 
             var books = carsQuery
-             
+
                 .Where(b => b.Taken == false)
                 .OrderByDescending(b => b.Id)
                 .Select(b => new BookListingViewModel
@@ -77,6 +78,7 @@ namespace BookBeing.Controllers
                     Author = b.Author,
                     Publisher = b.Publisher,
                     ImageUrl = b.ImageUrl,
+                    Price=b.Price,
                     Description = b.Description
                 })
                 .ToList();

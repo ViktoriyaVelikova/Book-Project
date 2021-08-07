@@ -6,24 +6,28 @@
         <input asp-for="SearchTerms" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
     </form>
     @*<form method="get" class="form-inline col-md-4 ">
-        <input asp-for="SearchTerms" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <input asp-for="SearchTerms" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
 
-    </form>
-    <form method="get" class="form-inline col-md-4 ">
-        <input asp-for="SearchTerms" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+        </form>
+        <form method="get" class="form-inline col-md-4 ">
+            <input asp-for="SearchTerms" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
 
-    </form>*@
+        </form>*@
 </div>
+
 
 @foreach (var book in Model.Books)
 {
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="@book.ImageUrl" alt="@book.Title - @book.Author">
+    <div class="card" style="width: 18rem; display:inline-block; height: 420px; overflow: hidden;">
+        <img class="card-img-top" src="@book.ImageUrl" alt="@book.Title - @book.Author.Name">
         <div class="card-body">
-            <h5 class="card-title">@book.Title - @book.Author</h5>
-            <p class="card-text">@book.Publisher</p>
-            <p class="card-text">@book.Description</p>
+            <h5 class="card-title">@book.Title - @book.Author.Name</h5>
+            <p class="card-text">@book.Publisher.Name</p>
+            <p class="card-text">@book.Price</p><i class="fa fa-square-o fa-stack-2x"></i>
+            <p class="card-text" style="max-height: 120px; overflow: hidden;">@book.Description</p>
             <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="btn btn-primary">Details</a>
         </div>
     </div>
 }
+
+
