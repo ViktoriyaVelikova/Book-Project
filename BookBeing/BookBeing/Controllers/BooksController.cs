@@ -36,6 +36,7 @@ namespace BookBeing.Controllers
                 book.Categories = this.GetBooksCategories();
                 return View(book);
             }
+            var category = this.data.Categories.FirstOrDefault(x => x.Id == book.CategoryId);
 
             var newBook = new Book
             {
@@ -44,7 +45,7 @@ namespace BookBeing.Controllers
                 Publisher = book.Publisher,
                 ImageUrl = book.ImageUrl,
                 Description = book.Description,
-                CategoryId = book.CategoryId,
+                Category = category,
                 Price = book.Price,
                 Taken = false
 
@@ -92,7 +93,7 @@ namespace BookBeing.Controllers
 
             return View(new AllBooksQueryModel
             {
-                Categories = booksCategories,
+                Categoryes = booksCategories,
                 Books = books,
                 SearchTerms = searchTerms
             });
