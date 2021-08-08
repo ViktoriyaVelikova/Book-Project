@@ -93,7 +93,7 @@ namespace BookBeing.Controllers
 
             return View(new AllBooksQueryModel
             {
-                Categoryes = booksCategories,
+                Categories = booksCategories,
                 Books = books,
                 SearchTerms = searchTerms
             });

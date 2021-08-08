@@ -7,7 +7,7 @@ namespace BookBeing.Models.Books
     {
         public string Titles { get; set; }
         public string Category { get; set; }
-        public IEnumerable<string> Categoryes { get; set; }
+        public IEnumerable<string> Categories { get; set; }
         public string SearchTerms { get; set; }
         public BooksSorting BooksSorting { get; set; }
         public IEnumerable<BookListingViewModel> Books { get; set; }
