@@ -56,27 +56,38 @@ namespace BookBeing.Controllers
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All(string searchTerms, string category)
+        public IActionResult All(
+            string searchTerms,
+            string category,
+            BooksSorting sorting)
         {
-            var carsQuery = this.data.Books.AsQueryable();
+            var booksQuery = this.data.Books.AsQueryable();
             if (!string.IsNullOrWhiteSpace(category))
             {
-                carsQuery = carsQuery
+                booksQuery = booksQuery
                     .Where(b => b.Category.Name == category);
             }
 
             if (!string.IsNullOrWhiteSpace(searchTerms))
             {
-                carsQuery = carsQuery
+                booksQuery = booksQuery
                     .Where(b => (
                     b.Title + " " + b.Author.Name + " " + b.Publisher.Name).ToLower().Contains(searchTerms.ToLower()) ||
                     b.Description.ToLower().Contains(searchTerms.ToLower()));
             }
 
-            var books = carsQuery
+            booksQuery = sorting switch
+            {
+                BooksSorting.DateCreated=> booksQuery.OrderByDescending(b=>b.Id),
+                BooksSorting.Author=> booksQuery.OrderByDescending(b=>b.Author.Name),
+                BooksSorting.Publisher=> booksQuery.OrderByDescending(b=>b.Publisher.Name),
+                BooksSorting.PriceLow=> booksQuery.OrderBy(b=>b.Price),
+                BooksSorting.PriceHigh=> booksQuery.OrderByDescending(b=>b.Price),
+                _ => booksQuery.OrderByDescending(b => b.Id)
+            };
 
+            var books = booksQuery
                 .Where(b => b.Taken == false)
-                .OrderByDescending(b => b.Id)
                 .Select(b => new BookListingViewModel
                 {
                     Id = b.Id,

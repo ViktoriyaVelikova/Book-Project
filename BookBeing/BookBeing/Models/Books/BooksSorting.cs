@@ -2,9 +2,12 @@
 {
     public enum BooksSorting
     {
-        Title = 0,
-        Author = 1,
-        Publisher = 2,
+        DateCreated = 0,
+        Title = 1,
+        Author = 2,
+        Publisher = 3,
+        PriceLow = 4,
+        PriceHigh = 5,
 
     }
 }

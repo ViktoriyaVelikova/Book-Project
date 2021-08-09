@@ -9,15 +9,28 @@
         <div class="form-group">
             <label asp-for="Category" style="margin-right:10px;"></label>
             <select asp-for="Category" class="form-control">
+                <option value="">All</option>
                 @foreach (var category in Model.Categories)
                 {
                     <option value="@category">@category</option>
                 }
             </select>
         </div>
-        @*<div>
-            <input asp-for="SearchTerms" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-        </div>*@
+
+        <div class="form-group">
+            <label asp-for="Sorting" style="margin-right:10px;"></label>
+            <select asp-for="Sorting" class="form-control">
+                <option value="0" selected>Date created</option>
+                <option value="1">Title</option>
+                <option value="2">Author</option>
+                <option value="3">Publisher</option>
+                <option value="4">Price (low to high)</option>
+                <option value="5">Price (high to low)</option>
+
+            </select>
+        </div>
+
+
     </form>
 </div>
 

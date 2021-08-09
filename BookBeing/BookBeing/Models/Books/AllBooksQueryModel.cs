@@ -9,7 +9,7 @@ namespace BookBeing.Models.Books
         public string Category { get; set; }
         public IEnumerable<string> Categories { get; set; }
         public string SearchTerms { get; set; }
-        public BooksSorting BooksSorting { get; set; }
+        public BooksSorting Sorting { get; set; }
         public IEnumerable<BookListingViewModel> Books { get; set; }
 
     }
