@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using static BookBeing.Data.DataConstants;
+using static BookBeing.Data.DataConstants.PublisherConstants;
 
 namespace BookBeing.Data.Models
 {
@@ -9,7 +9,8 @@ namespace BookBeing.Data.Models
         public int PublisherId { get; set; }
 
         [Required]
-        [MaxLength(PublisherMaxLenght)]
+        [MaxLength(MaxLenghtName)]
+        [MinLength(MinLenghtName)]
         public string Name { get; set; }
 
         public IEnumerable<Book> Books { get; init; } = new List<Book>();

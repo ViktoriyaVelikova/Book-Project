@@ -47,7 +47,8 @@ namespace BookBeing.Controllers
                 Description = book.Description,
                 Category = category,
                 Price = book.Price,
-                Taken = false
+                Taken = false,
+                UserId = this.User.Identity.Name
 
             };
             this.data.Books.Add(newBook);

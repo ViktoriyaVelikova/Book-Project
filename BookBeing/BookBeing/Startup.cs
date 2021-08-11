@@ -1,4 +1,5 @@
 using BookBeing.Data;
+using BookBeing.Data.Models;
 using BookBeing.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +28,7 @@ namespace BookBeing
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options =>
+            services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;

@@ -1,7 +1,7 @@
 ﻿using BookBeing.Data.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using static BookBeing.Data.DataConstants;
+using static BookBeing.Data.DataConstants.BookConstants;
 
 namespace BookBeing.Models.Books
 {
@@ -22,17 +22,16 @@ namespace BookBeing.Models.Books
         [Url]
         public string ImageUrl { get; init; }
 
-        [StringLength(int.MaxValue, MinimumLength = BookDescriptionMinLenght, ErrorMessage = "The minimum length of the description must be at least {2} chars.")]
+        [StringLength(int.MaxValue, MinimumLength =  MinLenghtDescription, ErrorMessage = "The minimum length of the description must be at least {2} chars.")]
         public string Description { get; init; }
 
         [Required]
-        [Range(0,10000.00)]
+        [Range(MinPrice,MaxPrice)]
         public decimal Price { get; init; }
 
         [Required]
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
-
         public IEnumerable<BookCategoryViewModel> Categories { get; set; }
     }
 }

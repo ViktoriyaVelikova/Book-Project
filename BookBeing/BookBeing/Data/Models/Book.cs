@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using static BookBeing.Data.DataConstants;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using static BookBeing.Data.DataConstants.BookConstants;
 
 namespace BookBeing.Data.Models
 {
@@ -9,6 +11,7 @@ namespace BookBeing.Data.Models
 
         [Required]
         [MaxLength(MaxLenghtTitle)]
+        [MinLength(MinLenghtTitle)]
         public string Title { get; set; }
 
         [Required]
@@ -21,6 +24,7 @@ namespace BookBeing.Data.Models
         [Required]
         public string ImageUrl { get; set; }
 
+        [MaxLength(MaxLenghtDescription)]
         public string Description { get; set; }
 
         [Required]
@@ -28,13 +32,19 @@ namespace BookBeing.Data.Models
         public Category Category { get; init; }
 
         [Required]
+        [Range(MinPrice, MaxPrice)]
         public decimal Price { get; set; }
 
         [Required]
-        [Range(0,10000)]
         public bool Taken { get; set; }
 
+        [Required]
+        public string UserId { get; set; }
 
+        public ApplicationUser User { get; set; }
+
+        public string UserTakenById { get; set; }
+        public virtual ApplicationUser UserTakenBy { get; set; }
 
 
     }
