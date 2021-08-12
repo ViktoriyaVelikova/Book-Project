@@ -43,7 +43,7 @@ namespace BookBeing.Data.Models
 
         public ApplicationUser User { get; set; }
 
-        public string UserTakenById { get; set; }
+        public virtual string UserTakenById { get; set; }
         public virtual ApplicationUser UserTakenBy { get; set; }
 
 

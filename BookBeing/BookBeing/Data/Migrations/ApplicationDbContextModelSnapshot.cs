@@ -16,7 +16,7 @@ namespace BookBeing.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("BookBeing.Data.Models.Announcement", b =>
@@ -173,7 +173,6 @@ namespace BookBeing.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserTakenById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -456,8 +455,7 @@ namespace BookBeing.Data.Migrations
                     b.HasOne("BookBeing.Data.Models.ApplicationUser", "UserTakenBy")
                         .WithMany("BoughtBooks")
                         .HasForeignKey("UserTakenById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Author");
 

@@ -1,9 +1,12 @@
 ﻿using BookBeing.Data;
 using BookBeing.Data.Models;
+using BookBeing.Infrastructure;
 using BookBeing.Models.Books;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace BookBeing.Controllers
 {
@@ -16,6 +19,7 @@ namespace BookBeing.Controllers
             this.data = data;
         }
 
+        [Authorize]
         public IActionResult Add()
         {
             return View(new AddBookFormModel
@@ -25,6 +29,7 @@ namespace BookBeing.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(AddBookFormModel book)
         {
             if (!this.data.Categories.Any(b => b.Id == book.CategoryId))
@@ -38,6 +43,7 @@ namespace BookBeing.Controllers
             }
             var category = this.data.Categories.FirstOrDefault(x => x.Id == book.CategoryId);
 
+
             var newBook = new Book
             {
                 Title = book.Title,
@@ -48,7 +54,7 @@ namespace BookBeing.Controllers
                 Category = category,
                 Price = book.Price,
                 Taken = false,
-                UserId = this.User.Identity.Name
+                UserId = this.User.GetId()
 
             };
             this.data.Books.Add(newBook);

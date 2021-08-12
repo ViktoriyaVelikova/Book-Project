@@ -57,7 +57,6 @@ namespace BookBeing.Data
                 entity.HasOne(b => b.UserTakenBy)
                     .WithMany(u => u.BoughtBooks)
                     .HasForeignKey(n => n.UserTakenById)
-                    .IsRequired()
                     .OnDelete(DeleteBehavior.Restrict);
             });
 
