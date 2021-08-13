@@ -5,7 +5,7 @@ using static BookBeing.Data.DataConstants.LibraryConstants;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BookBeing.Models.Library
+namespace BookBeing.Models.Libraries
 {
     public class AddLibraryFormModel
     {

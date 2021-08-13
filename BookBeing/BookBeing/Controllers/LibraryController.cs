@@ -1,7 +1,7 @@
 ﻿using BookBeing.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using BookBeing.Models.Library;
+using BookBeing.Models.Libraries;
 using System.Linq;
 using BookBeing.Infrastructure;
 using BookBeing.Data.Models;
@@ -41,6 +41,9 @@ namespace BookBeing.Controllers
                     Email = library.Email,
                     UserId = this.User.GetId()
                 };
+
+                data.Libraries.Add(newLibrary);
+                data.SaveChanges();
 
             }
 
