@@ -58,7 +58,6 @@ namespace BookBeing.Controllers
             }
 
             var countAnnouncements = announcements.Count();
-            //var theLibrary= libraries.FirstOrDefault(x=>x.Id)
 
             var announcementsToView = announcements
                 .Skip((query.CurrentPage - 1) * AllAnnouncementsQueryModel.AnnouncementsPerPage)
