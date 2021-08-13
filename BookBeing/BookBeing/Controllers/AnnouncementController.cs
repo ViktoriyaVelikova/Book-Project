@@ -72,6 +72,7 @@ namespace BookBeing.Controllers
             query.Announcements = announcementsToView;
             query.CountAnnouncements = countAnnouncements;
 
+
             return View(query);
         }
     }
