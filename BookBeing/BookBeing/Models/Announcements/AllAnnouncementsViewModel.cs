@@ -12,7 +12,5 @@ namespace BookBeing.Models.Announcements
         public int LibraryId { get; set; }
         public Library Library { get; set; }
 
-        public const int AnnouncementsPerPage = 6;
-        public int CurrentPage { get; set; } = 1;
     }
 }

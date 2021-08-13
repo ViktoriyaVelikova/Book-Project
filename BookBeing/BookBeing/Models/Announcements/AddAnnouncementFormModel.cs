@@ -2,7 +2,7 @@
 using static BookBeing.Data.DataConstants.AnnouncementConstants;
 using BookBeing.Data.Models;
 
-namespace BookBeing.Models.Announcement
+namespace BookBeing.Models.Announcements
 {
     public class AddAnnouncementFormModel
     {
@@ -11,6 +11,7 @@ namespace BookBeing.Models.Announcement
         [Required]
         public string Text { get; set; }
 
+        public int LibraryId { get; set; }
         public Library Library { get; set; }
     }
 }

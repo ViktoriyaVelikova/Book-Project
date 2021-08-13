@@ -29,9 +29,6 @@ namespace BookBeing.Data.Migrations
                     b.Property<int>("LibraryId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LibraryId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(300)
@@ -40,8 +37,6 @@ namespace BookBeing.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LibraryId");
-
-                    b.HasIndex("LibraryId1");
 
                     b.ToTable("Announcements");
                 });
@@ -241,9 +236,6 @@ namespace BookBeing.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ZipCode")
                         .IsRequired()
                         .HasMaxLength(5)
@@ -253,8 +245,6 @@ namespace BookBeing.Data.Migrations
 
                     b.HasIndex("UserId")
                         .IsUnique();
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Libraries");
                 });
@@ -413,15 +403,11 @@ namespace BookBeing.Data.Migrations
 
             modelBuilder.Entity("BookBeing.Data.Models.Announcement", b =>
                 {
-                    b.HasOne("BookBeing.Data.Models.Library", null)
+                    b.HasOne("BookBeing.Data.Models.Library", "Library")
                         .WithMany("Announcements")
                         .HasForeignKey("LibraryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("BookBeing.Data.Models.Library", "Library")
-                        .WithMany()
-                        .HasForeignKey("LibraryId1");
 
                     b.Navigation("Library");
                 });
@@ -470,15 +456,11 @@ namespace BookBeing.Data.Migrations
 
             modelBuilder.Entity("BookBeing.Data.Models.Library", b =>
                 {
-                    b.HasOne("BookBeing.Data.Models.ApplicationUser", null)
+                    b.HasOne("BookBeing.Data.Models.ApplicationUser", "User")
                         .WithOne()
                         .HasForeignKey("BookBeing.Data.Models.Library", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("BookBeing.Data.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
 
                     b.Navigation("User");
                 });

@@ -1,13 +1,10 @@
 ﻿using BookBeing.Data;
 using BookBeing.Data.Models;
 using BookBeing.Infrastructure;
-using BookBeing.Models.Announcement;
+using BookBeing.Models.Announcements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookBeing.Controllers
 {
@@ -36,8 +33,9 @@ namespace BookBeing.Controllers
             {
                 var announcement = new Announcement
                 {
-                    Text= AddAnnouncemen.Text,
-                    LibraryId= library.Id
+                    Text = AddAnnouncemen.Text,
+                    LibraryId = library.Id,
+                    Library= library
                 };
                 data.Announcements.Add(announcement);
                 data.SaveChanges();
@@ -46,9 +44,36 @@ namespace BookBeing.Controllers
             return View();
         }
 
-        public IActionResult ALL()
+        public IActionResult All([FromQuery] AllAnnouncementsQueryModel query)
         {
-            return View();
+            var announcements = this.data.Announcements.AsQueryable();
+            var libraries = this.data.Libraries.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.SearchTerms))
+            {
+                announcements = announcements
+                    .Where(a => (
+                    a.Library.City + " " + a.Library.LibraryName + " " + a.Library.ZipCode).ToLower().Contains(query.SearchTerms.ToLower()) ||
+                    a.Text.ToLower().Contains(query.SearchTerms.ToLower()));
+            }
+
+            var countAnnouncements = announcements.Count();
+            //var theLibrary= libraries.FirstOrDefault(x=>x.Id)
+
+            var announcementsToView = announcements
+                .Skip((query.CurrentPage - 1) * AllAnnouncementsQueryModel.AnnouncementsPerPage)
+                 .Take(AllAnnouncementsQueryModel.AnnouncementsPerPage)
+                 .Select(a => new AllAnnouncementsViewModel
+                 {
+                     Id = a.Id,
+                     LibraryId = a.LibraryId,
+                     Library= libraries.FirstOrDefault(x => x.Id==a.Id)
+                 })
+                .ToList();
+            query.Announcements = announcementsToView;
+            query.CountAnnouncements = countAnnouncements;
+
+            return View(query);
         }
     }
 }
