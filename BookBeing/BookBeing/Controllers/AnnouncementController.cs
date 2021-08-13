@@ -35,7 +35,7 @@ namespace BookBeing.Controllers
                 {
                     Text = AddAnnouncemen.Text,
                     LibraryId = library.Id,
-                    Library= library
+                    Library = library
                 };
                 data.Announcements.Add(announcement);
                 data.SaveChanges();
@@ -66,12 +66,11 @@ namespace BookBeing.Controllers
                  {
                      Id = a.Id,
                      LibraryId = a.LibraryId,
-                     Library= libraries.FirstOrDefault(x => x.Id==a.Id)
+                     Library = libraries.FirstOrDefault(x => x.Id == a.Id)
                  })
                 .ToList();
             query.Announcements = announcementsToView;
             query.CountAnnouncements = countAnnouncements;
-
 
             return View(query);
         }
