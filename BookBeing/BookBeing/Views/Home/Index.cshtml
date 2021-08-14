@@ -1,4 +1,4 @@
-﻿@model List<CarServiceModel>
+﻿@model List<BookListingViewModel>
 @{
     ViewData["Title"] = "Book Being";
 }
@@ -21,11 +21,12 @@
 <div class="index-container">
     @foreach (var book in Model)
     {
-        <div class="card box-shadow flex-md-row mb-4" >
+        <div class="card box-shadow flex-md-row mb-4">
             <img class="card-img-top" src="@book.ImageUrl" alt="@book.Title - @book.Author">
             <div class="card-body">
                 <h5 class="card-title">@book.Title - @book.Author.Name</h5>
                 <p class="card-text">@book.Publisher.Name</p>
+                <p class="card-text">Price: @book.Price</p>
                 <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="btn btn-primary">Details</a>
             </div>
         </div>

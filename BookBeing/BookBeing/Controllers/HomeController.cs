@@ -30,7 +30,8 @@ namespace BookBeing.Controllers
                     Author = b.Author,
                     Publisher = b.Publisher,
                     ImageUrl = b.ImageUrl,
-                    Description = b.Description
+                    Description = b.Description,
+                    Price = b.Price
                 })
                 .Take(3)
                 .ToList();
