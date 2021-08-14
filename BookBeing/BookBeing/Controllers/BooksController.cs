@@ -2,6 +2,7 @@
 using BookBeing.Data.Models;
 using BookBeing.Infrastructure;
 using BookBeing.Models.Books;
+using BookBeing.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace BookBeing.Controllers
     public class BooksController : Controller
     {
         private readonly BookBeingDbContext data;
+        private readonly IBookService books;
 
-        public BooksController(BookBeingDbContext data)
+        public BooksController(BookBeingDbContext data, IBookService books)
         {
             this.data = data;
+            this.books = books;
         }
 
         [Authorize]
@@ -65,53 +68,19 @@ namespace BookBeing.Controllers
 
         public IActionResult All([FromQuery] AllBooksQueryModel query)
         {
-            var booksQuery = this.data.Books.AsQueryable();
-            if (!string.IsNullOrWhiteSpace(query.Category))
-            {
-                booksQuery = booksQuery
-                    .Where(b => b.Category.Name == query.Category);
-            }
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerms))
-            {
-                booksQuery = booksQuery
-                    .Where(b => (
-                    b.Title + " " + b.Author.Name + " " + b.Publisher.Name).ToLower().Contains(query.SearchTerms.ToLower()) ||
-                    b.Description.ToLower().Contains(query.SearchTerms.ToLower()));
-            }
+            var queryResult = this.books.All(
+                query.Category,
+                query.SearchTerms,
+                query.Sorting,
+                query.CurrentPage,
+                AllBooksQueryModel.booksPerPage);
 
-            booksQuery = query.Sorting switch
-            {
-                BooksSorting.DateCreated => booksQuery.OrderByDescending(b => b.Id),
-                BooksSorting.Author => booksQuery.OrderByDescending(b => b.Author.Name),
-                BooksSorting.Publisher => booksQuery.OrderByDescending(b => b.Publisher.Name),
-                BooksSorting.PriceLow => booksQuery.OrderBy(b => b.Price),
-                BooksSorting.PriceHigh => booksQuery.OrderByDescending(b => b.Price),
-                _ => booksQuery.OrderByDescending(b => b.Id)
-            };
+            var booksCategories = this.books.AllBookCatrgories();
 
-            var countBooks = booksQuery.Count();
-
-            var books = booksQuery
-                .Skip((query.CurrentPage - 1) * AllBooksQueryModel.booksPerPage)
-                .Take(AllBooksQueryModel.booksPerPage)
-                .Where(b => b.Taken == false)
-                .Select(b => new BookListingViewModel
-                {
-                    Id = b.Id,
-                    Title = b.Title,
-                    Author = b.Author,
-                    Publisher = b.Publisher,
-                    ImageUrl = b.ImageUrl,
-                    Price = b.Price,
-                    Description = b.Description
-                })
-                .ToList();
-
-            var booksCategories = this.data.Categories.Select(c => c.Name).ToList();
-            query.Books = books;
-            query.CountBooks = countBooks;
             query.Categories = booksCategories;
+            query.CountBooks = queryResult.CountBooks;
+            query.Books = queryResult.Books;
 
             return View(query);
         }

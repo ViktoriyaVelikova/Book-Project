@@ -1,4 +1,5 @@
-﻿using BookBeing.Data.Models;
+﻿using BookBeing.Services.Books;
+using BookBeing.Services.Books.Models;
 using System.Collections.Generic;
 
 namespace BookBeing.Models.Books
@@ -12,7 +13,7 @@ namespace BookBeing.Models.Books
         public BooksSorting Sorting { get; set; }
         public int CurrentPage { get; set; } = 1;
         public int CountBooks { get; set; }
-        public IEnumerable<BookListingViewModel> Books { get; set; }
+        public IEnumerable<BookServiceModel> Books { get; set; }
 
     }
 }

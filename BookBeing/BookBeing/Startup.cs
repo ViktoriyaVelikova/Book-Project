@@ -1,6 +1,7 @@
 using BookBeing.Data;
 using BookBeing.Data.Models;
 using BookBeing.Infrastructure;
+using BookBeing.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -38,6 +39,7 @@ namespace BookBeing
                 .AddEntityFrameworkStores<BookBeingDbContext>();
 
             services.AddControllersWithViews();
+            services.AddTransient<IBookService, BookService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -20,6 +20,12 @@ namespace BookBeing.Controllers
         [Authorize]
         public IActionResult AddAnnouncement()
         {
+            var userId = this.User.GetId();
+            var library = data.Libraries.FirstOrDefault(l => l.UserId == userId);
+            if (library == null)
+            {
+                return RedirectToAction(nameof(LibraryController.RegisterLibrary), "Library");
+            }
             return View();
         }
 
@@ -39,9 +45,11 @@ namespace BookBeing.Controllers
                 };
                 data.Announcements.Add(announcement);
                 data.SaveChanges();
+                return RedirectToAction("All");
             }
-            //If library is Null => you are not a Librari?
-            return RedirectToAction("All");
+            //TODO: If library is Null => you are not a Librari? Probably add text field to the model?
+            //TODO: Use any and method bool for "if exist"
+            return RedirectToAction(nameof(LibraryController.RegisterLibrary), "Library");
         }
 
         public IActionResult All([FromQuery] AllAnnouncementsQueryModel query)
@@ -75,5 +83,9 @@ namespace BookBeing.Controllers
 
             return View(query);
         }
+        //public IActionResult Details(int id)
+        //{
+
+        //}
     }
 }

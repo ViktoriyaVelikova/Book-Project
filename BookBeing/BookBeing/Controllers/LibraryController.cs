@@ -47,8 +47,8 @@ namespace BookBeing.Controllers
 
             }
 
-            return RedirectToAction("All", "Books");
-            //TODO: Redirect to Donate to Library where should be a button add announcement 
+            //TODO If you are already a Library? 
+            return RedirectToAction("All", "Announcement");
         }
 
     }
