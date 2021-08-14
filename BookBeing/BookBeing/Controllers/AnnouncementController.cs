@@ -40,8 +40,8 @@ namespace BookBeing.Controllers
                 data.Announcements.Add(announcement);
                 data.SaveChanges();
             }
-            //Redirect to all
-            return View();
+            //If library is Null => you are not a Librari?
+            return RedirectToAction("All");
         }
 
         public IActionResult All([FromQuery] AllAnnouncementsQueryModel query)

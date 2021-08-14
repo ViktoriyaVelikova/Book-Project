@@ -28,19 +28,6 @@ namespace BookBeing.Data
                 .HasForeignKey(b => b.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Announcement>()
-    .HasOne(a => a.Library)
-    .WithMany(l => l.Announcements)
-    .HasForeignKey(a => a.LibraryId)
-    .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Library>()
-    .HasOne(l => l.User)
-    .WithOne()
-    .HasForeignKey<Library>(l => l.UserId)
-    .OnDelete(DeleteBehavior.Restrict);
-
-
             builder
                 .Entity<Book>()
                 .HasOne(b => b.Author)
@@ -73,19 +60,17 @@ namespace BookBeing.Data
                     .OnDelete(DeleteBehavior.Restrict);
             });
 
-            //builder.Entity<Library>()
-            //    .HasOne<ApplicationUser>()
-            //    .WithOne()
-            //    .HasForeignKey<Library>(l => l.UserId)
-            //    .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Announcement>()
+                .HasOne(a => a.Library)
+                .WithMany(l => l.Announcements)
+                .HasForeignKey(a => a.LibraryId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            //builder.Entity<Announcement>()
-            //    .HasOne<Library>()
-            //    .WithMany(l => l.Announcements)
-            //    .HasForeignKey(a => a.LibraryId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
-
+            builder.Entity<Library>()
+                .HasOne(l => l.User)
+                .WithOne()
+                .HasForeignKey<Library>(l => l.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
             base.OnModelCreating(builder);
         }
     }
