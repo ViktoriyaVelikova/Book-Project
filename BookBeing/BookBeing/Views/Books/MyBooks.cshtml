@@ -1,0 +1,8 @@
+﻿@model IEnumerable<BookServiceModel>
+
+@{
+    ViewBag.Title = "My Books";
+    ViewBag.AllowBookEdit = true;
+}
+
+<partial name="_BooksPartial" model="@Model" />

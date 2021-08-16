@@ -1,17 +1,36 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using BookBeing.Data.Models
+@using BookBeing.Infrastructure
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject ILibraryServices Library
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
+        var UsetId = User.GetId();
+        var userIsLibrary = Library.IsLibrary(UsetId);
+
+        @if (userIsLibrary)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Announcement" asp-action="MyAnnouncements">Announcements</a>
+            </li>
+        }
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="MyBooks">My Books</a>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Library" asp-action="RegisterLibrary">Register as Library</a>
-        </li>
+        @if (!userIsLibrary)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Library" asp-action="RegisterLibrary">Register as Library</a>
+            </li>
+        }
+
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>

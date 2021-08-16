@@ -1,4 +1,5 @@
 ﻿using BookBeing.Data;
+using BookBeing.Data.Models;
 using BookBeing.Models.Books;
 using BookBeing.Services.Books.Models;
 using System;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BookBeing.Services
+namespace BookBeing.Services.Books
 {
     public class BookService : IBookService
     {
@@ -51,21 +52,10 @@ namespace BookBeing.Services
 
             var countBooks = booksQuery.Count();
 
-            var books = booksQuery
+            var books = GetBooks(booksQuery
                 .Skip((currentPage - 1) * booksPerPage)
                 .Take(booksPerPage)
-                .Where(b => b.Taken == false)
-                .Select(b => new BookServiceModel
-                {
-                    Id = b.Id,
-                    Title = b.Title,
-                    Author = b.Author,
-                    Publisher = b.Publisher,
-                    ImageUrl = b.ImageUrl,
-                    Price = b.Price,
-                    Description = b.Description
-                })
-                .ToList();
+                .Where(b => b.Taken == false));
 
             return new BookQueryServiceModel
             {
@@ -79,6 +69,56 @@ namespace BookBeing.Services
         public IEnumerable<string> AllBookCatrgories()
         {
             return this.data.Categories.Select(x => x.Name).ToList();
+        }
+
+        public IEnumerable<BookServiceModel> AllBooksByUser(string userId)
+        {
+            var books = this.data.Books.Where(b => b.UserId == userId);
+            return GetBooks(books);
+        }
+
+        private static IEnumerable<BookServiceModel> GetBooks(IQueryable<Book> booksQuery)
+        {
+            return booksQuery.Select(b => new BookServiceModel
+            {
+                Id = b.Id,
+                Title = b.Title,
+                Author = b.Author,
+                Publisher = b.Publisher,
+                ImageUrl = b.ImageUrl,
+                Price = b.Price,
+                Description = b.Description
+            }).ToList();
+        }
+        public IEnumerable<BookCategoryServiceModel> GetBooksCategories()
+        {
+            return this.data.Categories
+                .Select(c =>
+                new BookCategoryServiceModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }
+            ).ToList();
+        }
+
+        public BookDetailsServiceModel Details(int id)
+        {
+            var book = data.Books.Where(b => b.Id == id).Select(b => new BookDetailsServiceModel
+            {
+                Id = b.Id,
+                Title = b.Title,
+                Author = b.Author,
+                Publisher = b.Publisher,
+                CategoryId = b.CategoryId,
+                ImageUrl = b.ImageUrl,
+                Description = b.Description,
+                Price = b.Price,
+                UserId = b.UserId
+
+            }).FirstOrDefault();
+
+            return book;
         }
     }
 }

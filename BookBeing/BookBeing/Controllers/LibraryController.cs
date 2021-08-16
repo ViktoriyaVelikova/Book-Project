@@ -51,5 +51,16 @@ namespace BookBeing.Controllers
             return RedirectToAction("All", "Announcement");
         }
 
+        //[Authorize]
+        //public IActionResult MyAnnouncements(string userId)
+        //{
+        //    var library = this.data.Libraries.FirstOrDefault(l => l.UserId == userId);
+        //    List<Announcement> announcements = new List<Announcement>();
+        //    if (library != null)
+        //    {
+        //        announcements = library.Announcements.ToList();
+        //    }
+
+        //}
     }
 }

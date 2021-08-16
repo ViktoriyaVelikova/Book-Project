@@ -2,10 +2,10 @@
 using BookBeing.Data.Models;
 using BookBeing.Infrastructure;
 using BookBeing.Models.Books;
-using BookBeing.Services;
+using BookBeing.Services.Books;
+using BookBeing.Services.Books.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Linq;
 
 
@@ -25,15 +25,15 @@ namespace BookBeing.Controllers
         [Authorize]
         public IActionResult Add()
         {
-            return View(new AddBookFormModel
+            return View(new BookFormModel
             {
-                Categories = GetBooksCategories()
+                Categories = this.books.GetBooksCategories()
             });
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add(AddBookFormModel book)
+        public IActionResult Add(BookFormModel book)
         {
             if (!this.data.Categories.Any(b => b.Id == book.CategoryId))
             {
@@ -41,7 +41,7 @@ namespace BookBeing.Controllers
             }
             if (!ModelState.IsValid)
             {
-                book.Categories = this.GetBooksCategories();
+                book.Categories = this.books.GetBooksCategories();
                 return View(book);
             }
             var category = this.data.Categories.FirstOrDefault(x => x.Id == book.CategoryId);
@@ -84,16 +84,22 @@ namespace BookBeing.Controllers
 
             return View(query);
         }
-        private IEnumerable<BookCategoryViewModel> GetBooksCategories()
+
+
+        [Authorize]
+        public IActionResult MyBooks()
         {
-            return this.data.Categories
-                .Select(c =>
-                new BookCategoryViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                }
-            ).ToList();
+            var myBooks = this.books.AllBooksByUser(this.User.GetId());
+            return View(myBooks);
+
         }
+
+        //[Authorize]
+        //public IActionResult Edit(int id)
+        //{
+
+        //}
+
+
     }
 }

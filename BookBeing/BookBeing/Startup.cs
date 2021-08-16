@@ -1,10 +1,12 @@
 using BookBeing.Data;
 using BookBeing.Data.Models;
 using BookBeing.Infrastructure;
-using BookBeing.Services;
+using BookBeing.Services.Books;
+using BookBeing.Services.Libraries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,8 +40,13 @@ namespace BookBeing
             })
                 .AddEntityFrameworkStores<BookBeingDbContext>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
+
             services.AddTransient<IBookService, BookService>();
+            services.AddTransient<ILibraryServices, LibraryServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
