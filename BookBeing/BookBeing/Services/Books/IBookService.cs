@@ -17,6 +17,27 @@ namespace BookBeing.Services.Books
         IEnumerable<BookServiceModel> AllBooksByUser(string userId);
         IEnumerable<BookCategoryServiceModel> GetBooksCategories();
 
-        BookDetailsServiceModel Details(int id);
+        BookDetailsServiceModel Details(int bookId);
+        bool CategoryExist(int categoryId);
+        bool BookIsByUser(string userId, int bookId);
+
+        int Create(
+            string title,
+            Author author,
+            Publisher publisher,
+            string imageUrl,
+            string description,
+            Category category,
+            decimal price,
+            string userId);
+        bool Edit(
+           int bookId,
+           string title,
+           Author author,
+           Publisher publisher,
+           string imageUrl,
+           string description,
+           Category category,
+           decimal price);
     }
 }

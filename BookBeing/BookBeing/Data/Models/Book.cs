@@ -16,10 +16,9 @@ namespace BookBeing.Data.Models
 
         [Required]
         public int AuthorId { get; set; }
-        public Author Author { get; init; }
-
+        public Author Author { get; set; }
         public int PublisherId { get; set; }
-        public Publisher Publisher { get; init; }
+        public Publisher Publisher { get; set; }
 
         [Required]
         public string ImageUrl { get; set; }
@@ -29,7 +28,7 @@ namespace BookBeing.Data.Models
 
         [Required]
         public int CategoryId { get; set; }
-        public Category Category { get; init; }
+        public Category Category { get; set; }
 
         [Required]
         [Range(MinPrice, MaxPrice)]

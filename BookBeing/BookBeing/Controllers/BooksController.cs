@@ -13,6 +13,7 @@ namespace BookBeing.Controllers
 {
     public class BooksController : Controller
     {
+        //The goal is to get out "BookBeingDbContext data" => move the others usages in service
         private readonly BookBeingDbContext data;
         private readonly IBookService books;
 
@@ -35,10 +36,12 @@ namespace BookBeing.Controllers
         [Authorize]
         public IActionResult Add(BookFormModel book)
         {
-            if (!this.data.Categories.Any(b => b.Id == book.CategoryId))
+
+            if (!books.CategoryExist(book.CategoryId))
             {
-                this.ModelState.AddModelError(nameof(book.CategoryId), "This category does not exist.");
+                this.ModelState.AddModelError(nameof(book.CategoryId), "Category does not exist.");
             }
+
             if (!ModelState.IsValid)
             {
                 book.Categories = this.books.GetBooksCategories();
@@ -47,21 +50,15 @@ namespace BookBeing.Controllers
             var category = this.data.Categories.FirstOrDefault(x => x.Id == book.CategoryId);
 
 
-            var newBook = new Book
-            {
-                Title = book.Title,
-                Author = book.Author,
-                Publisher = book.Publisher,
-                ImageUrl = book.ImageUrl,
-                Description = book.Description,
-                Category = category,
-                Price = book.Price,
-                Taken = false,
-                UserId = this.User.GetId()
-
-            };
-            this.data.Books.Add(newBook);
-            data.SaveChanges();
+            this.books.Create(
+                book.Title,
+                book.Author,
+                book.Publisher,
+                book.ImageUrl,
+                book.Description,
+                book.Category,
+                book.Price,
+                this.User.GetId());
 
             return RedirectToAction(nameof(All));
         }
@@ -94,11 +91,61 @@ namespace BookBeing.Controllers
 
         }
 
-        //[Authorize]
-        //public IActionResult Edit(int id)
-        //{
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var theBook = this.books.Details(id);
+            if (theBook.UserId != this.User.GetId())
+            {
+                return Unauthorized();
+            }
 
-        //}
+            return View(new BookFormModel
+            {
+                Title = theBook.Title,
+                Author = theBook.Author,
+                Publisher = theBook.Publisher,
+                ImageUrl = theBook.ImageUrl,
+                Description = theBook.Description,
+                Price = theBook.Price,
+                CategoryId = theBook.CategoryId,
+                Category = theBook.Category,
+                Categories = this.books.GetBooksCategories()
+            });
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(int id, BookFormModel book)
+        {
+            if (!books.CategoryExist(book.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(book.CategoryId), "Category does not exist.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                book.Categories = this.books.GetBooksCategories();
+                return View(book);
+            }
+            var category = this.data.Categories.FirstOrDefault(x => x.Id == book.CategoryId);
+            if (!books.BookIsByUser(this.User.GetId(), id))
+            {
+                return BadRequest();
+            }
+            this.books.Edit(
+                 id,
+                 book.Title,
+                 book.Author,
+                 book.Publisher,
+                 book.ImageUrl,
+                 book.Description,
+                 book.Category,
+                 book.Price);
+
+            return RedirectToAction(nameof(All));
+        }
 
 
     }

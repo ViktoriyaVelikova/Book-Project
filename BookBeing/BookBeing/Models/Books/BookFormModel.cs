@@ -33,6 +33,7 @@ namespace BookBeing.Models.Books
         [Required]
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
+        public Category Category { get; set; }
         public IEnumerable<BookCategoryServiceModel> Categories { get; set; }
     }
 }

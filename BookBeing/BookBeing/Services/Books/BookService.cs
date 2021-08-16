@@ -102,9 +102,9 @@ namespace BookBeing.Services.Books
             ).ToList();
         }
 
-        public BookDetailsServiceModel Details(int id)
+        public BookDetailsServiceModel Details(int bookId)
         {
-            var book = data.Books.Where(b => b.Id == id).Select(b => new BookDetailsServiceModel
+            var book = data.Books.Where(b => b.Id == bookId).Select(b => new BookDetailsServiceModel
             {
                 Id = b.Id,
                 Title = b.Title,
@@ -119,6 +119,61 @@ namespace BookBeing.Services.Books
             }).FirstOrDefault();
 
             return book;
+        }
+
+        public bool CategoryExist(int categoryId)
+        {
+            return this.data.Categories.Any(c => c.Id == categoryId);
+        }
+
+        public int Create(string title, Author author, Publisher publisher, string imageUrl, string description, Category category, decimal price, string userId)
+        {
+            var newBook = new Book
+            {
+                Title = title,
+                Author = author,
+                Publisher = publisher,
+                ImageUrl = imageUrl,
+                Description = description,
+                Category = category,
+                Price = price,
+                Taken = false,
+                UserId = userId
+
+            };
+            this.data.Books.Add(newBook);
+            data.SaveChanges();
+
+            return newBook.Id;
+        }
+
+        public bool Edit(int bookId, string title, Author author, Publisher publisher, string imageUrl, string description, Category category, decimal price)
+        {
+            var book = this.data.Books.Find(bookId);
+            if (book == null)
+            {
+                return false;
+            }
+
+            book.Title = title;
+            book.Author = author;
+            book.Publisher = publisher;
+            book.ImageUrl = imageUrl;
+            book.Description = description;
+            book.Category = category;
+            book.Price = price;
+            book.Taken = false;
+            //book.UserId = userId;
+
+
+            data.SaveChanges();
+
+            return true;
+        }
+
+        public bool BookIsByUser(string userId, int bookId)
+        {
+            return data.Books.Any(b => b.Id == bookId && b.UserId == userId);
         }
     }
 }
