@@ -13,13 +13,11 @@ namespace BookBeing.Controllers
 {
     public class BooksController : Controller
     {
-        //The goal is to get out "BookBeingDbContext data" => move the others usages in service
-        private readonly BookBeingDbContext data;
+
         private readonly IBookService books;
 
-        public BooksController(BookBeingDbContext data, IBookService books)
+        public BooksController(IBookService books)
         {
-            this.data = data;
             this.books = books;
         }
 
@@ -47,8 +45,8 @@ namespace BookBeing.Controllers
                 book.Categories = this.books.GetBooksCategories();
                 return View(book);
             }
-            var category = this.data.Categories.FirstOrDefault(x => x.Id == book.CategoryId);
 
+            var category = books.GetCategory(book.CategoryId);
 
             this.books.Create(
                 book.Title,
@@ -65,7 +63,6 @@ namespace BookBeing.Controllers
 
         public IActionResult All([FromQuery] AllBooksQueryModel query)
         {
-
             var queryResult = this.books.All(
                 query.Category,
                 query.SearchTerms,
@@ -88,14 +85,13 @@ namespace BookBeing.Controllers
         {
             var myBooks = this.books.AllBooksByUser(this.User.GetId());
             return View(myBooks);
-
         }
 
         [Authorize]
         public IActionResult Edit(int id)
         {
             var theBook = this.books.Details(id);
-            if (theBook.UserId != this.User.GetId())
+            if (theBook.UserId != this.User.GetId() && !User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -129,8 +125,10 @@ namespace BookBeing.Controllers
                 book.Categories = this.books.GetBooksCategories();
                 return View(book);
             }
-            var category = this.data.Categories.FirstOrDefault(x => x.Id == book.CategoryId);
-            if (!books.BookIsByUser(this.User.GetId(), id))
+
+            var category = books.GetCategory(book.CategoryId);
+
+            if (!books.BookIsByUser(this.User.GetId(), id) && !User.IsAdmin())
             {
                 return BadRequest();
             }
@@ -147,6 +145,9 @@ namespace BookBeing.Controllers
             return RedirectToAction(nameof(All));
         }
 
+        //public IActionResult Details(int id)
+        //{
 
+        //}
     }
 }

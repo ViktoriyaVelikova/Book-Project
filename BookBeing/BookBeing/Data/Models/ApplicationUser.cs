@@ -11,7 +11,7 @@ namespace BookBeing.Data.Models
         [MaxLength(MaxLenghtName)]
         [MinLength(MinLenghtName)]
         public string Name { get; set; }
-        public IEnumerable<Book> Books { get; set; } = new List<Book>();
+        public virtual IEnumerable<Book> Books { get; set; } = new List<Book>();
         public virtual IEnumerable<Book> BoughtBooks { get; set; } = new List<Book>();
 
     }

@@ -5,26 +5,30 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject ILibraryServices Library
 
+
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         var UsetId = User.GetId();
         var userIsLibrary = Library.IsLibrary(UsetId);
+        var usarAdmin = User.IsAdmin();
 
-        @if (userIsLibrary)
+        @if (userIsLibrary && !usarAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Announcement" asp-action="MyAnnouncements">Announcements</a>
             </li>
         }
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="MyBooks">My Books</a>
-        </li>
-
+        @if (!usarAdmin)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="MyBooks">My Books</a>
+            </li>
+        }
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>
         </li>
-        @if (!userIsLibrary)
+        @if (!userIsLibrary && !usarAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Library" asp-action="RegisterLibrary">Register as Library</a>

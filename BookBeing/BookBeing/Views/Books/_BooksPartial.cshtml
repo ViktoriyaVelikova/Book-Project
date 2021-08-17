@@ -8,13 +8,13 @@
     @foreach (var book in Model)
     {
         <div class="card box-shadow" style="width: 18rem; display:inline-block; height: 450px; overflow: hidden; margin:10px;">
-            <img style="max-height:230px;" class="card-img-top" src="@book.ImageUrl" alt="@book.Title - @book.Author.Name">
+            <img style="height:230px;" class="card-img-top" src="@book.ImageUrl" alt="@book.Title - @book.Author.Name">
             <div class="card-body">
                 <h5 style="max-height:50px;overflow: hidden;" class="card-title">@book.Title - @book.Author.Name</h5>
                 <p class="card-text">@book.Publisher.Name</p>
                 <p class="card-text">Price: @book.Price</p>
                 <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="btn btn-primary">Details</a>
-                @if (ViewBag.AllowBookEdit == true)
+                @if (ViewBag.AllowBookEdit == true || User.IsAdmin())
                 {
                     <a asp-controller="Books" asp-action="Edit" asp-route-id="@book.Id" class="btn btn-info">Edit</a>
                     <a asp-controller="Books" asp-action="Delete" asp-route-id="@book.Id" class="btn btn-danger">Delete</a>

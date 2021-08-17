@@ -2,10 +2,8 @@
 using BookBeing.Data.Models;
 using BookBeing.Models.Books;
 using BookBeing.Services.Books.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookBeing.Services.Books
 {
@@ -174,6 +172,11 @@ namespace BookBeing.Services.Books
         public bool BookIsByUser(string userId, int bookId)
         {
             return data.Books.Any(b => b.Id == bookId && b.UserId == userId);
+        }
+
+        public Category GetCategory(int categoriId)
+        {
+            return this.data.Categories.FirstOrDefault(c => c.Id == categoriId);
         }
     }
 }
