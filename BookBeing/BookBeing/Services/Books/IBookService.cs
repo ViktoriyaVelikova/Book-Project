@@ -27,6 +27,7 @@ namespace BookBeing.Services.Books
             Publisher publisher,
             string imageUrl,
             string description,
+            int categoryId,
             Category category,
             decimal price,
             string userId);

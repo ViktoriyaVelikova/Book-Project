@@ -37,16 +37,7 @@ namespace BookBeing.Controllers
                     Price = book.Price
                 });
             }
-            //Id = b.Id,
-            //Title = b.Title,
-            //Author = b.Author,
-            //Publisher = b.Publisher,
-            //ImageUrl = b.ImageUrl,
-            //Description = b.Description,
-            //Price = b.Price
 
-
-            //BookIndexViewModel
             return View(result);
         }
 

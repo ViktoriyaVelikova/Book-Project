@@ -48,6 +48,7 @@ namespace BookBeing.Controllers
                 book.Publisher,
                 book.ImageUrl,
                 book.Description,
+                book.CategoryId,
                 book.Category,
                 book.Price,
                 this.User.GetId());

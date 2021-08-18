@@ -5,16 +5,21 @@
 
 
 <div class="card bg-light text-white box-shadow" id="header-index">
-    <img class="card-img" src="/book.jpg" alt="Card image">
+    <img class="card-img" src="/book.jpg" alt="Card-image">
     <div class="card-img-overlay">
-        <h5 class="card-title">Welcome to our free space for giving or selling books.</h5>
-        <p class="card-text">Here you can give or sell the books you keep at home and you do not know what to do with them.</p>
+        <div style="text-align:center; background-color:rgba(215, 214, 213, 0.39);">
+            <h2 class="card-title" style="text-shadow: 0 0 0.15em #b8b8b8;  ">Welcome to our free space for giving or selling books.</h2>
+            <p class="card-text" style="font-size:20px; text-shadow: 1px 1px 1px #9c9c9c;">Here you can give or sell the books you keep at home and you do not know what to do with them.</p>
+        </div>
+
         @if (!Model.Any())
         {
-            <p>At the moment we do not have registered books. Be the first to register.</p>
-            <p class="lead">
-                <a asp-controller="Books" asp-action="Add" class="btn btn-light" role="button">Add Book</a>
-            </p>
+            <div style="text-align:center; background-color:rgba(215, 214, 213, 0.39);">
+                <p>At the moment we do not have registered books. Be the first to register.</p>
+                <p class="lead">
+                    <a asp-controller="Books" asp-action="Add" class="btn btn-light" role="button">Add Book</a>
+                </p>
+            </div>
         }
     </div>
 </div>
@@ -23,7 +28,7 @@
 <div class="container" style="position:center">
     @foreach (var book in Model)
     {
-        <div class="card box-shadow" style="width: 18rem; display:inline-block; height: 450px; overflow: hidden; margin:10px;">
+        <div class="card box-shadow row mx-md-4" style="width: 18rem; display:inline-block; height: 450px; overflow: hidden; margin:10px;">
             <img style="height:230px;" class="card-img-top" src="@book.ImageUrl" alt="@book.Title - @book.Author.Name">
             <div class="card-body">
                 <h5 style="max-height:50px;overflow: hidden;" class="card-title">@book.Title - @book.Author.Name</h5>

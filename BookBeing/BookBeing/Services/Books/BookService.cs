@@ -125,7 +125,7 @@ namespace BookBeing.Services.Books
             return this.data.Categories.Any(c => c.Id == categoryId);
         }
 
-        public int Create(string title, Author author, Publisher publisher, string imageUrl, string description, Category category, decimal price, string userId)
+        public int Create(string title, Author author, Publisher publisher, string imageUrl, string description, int categoryId, Category category, decimal price, string userId)
         {
             var newBook = new Book
             {
@@ -134,6 +134,7 @@ namespace BookBeing.Services.Books
                 Publisher = publisher,
                 ImageUrl = imageUrl,
                 Description = description,
+                CategoryId = categoryId,
                 Category = category,
                 Price = price,
                 Taken = false,

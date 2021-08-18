@@ -1,13 +1,9 @@
 ﻿@model IEnumerable<BookServiceModel>
 
-@*@if (!Model.Any())
-{
-    <h3>You don't have books yet.</h3>
-}*@
-<div class="container" style="position:center">
+<div class="container" style="">
     @foreach (var book in Model)
     {
-        <div class="card box-shadow" style="width: 18rem; display:inline-block; height: 450px; overflow: hidden; margin:10px;">
+        <div class="card box-shadow row mx-md-4" style="width: 18rem; display:inline-block; height: 450px; overflow: hidden; margin:10px; grid-gap:55px;">
             <img style="height:230px;" class="card-img-top" src="@book.ImageUrl" alt="@book.Title - @book.Author.Name">
             <div class="card-body">
                 <h5 style="max-height:50px;overflow: hidden;" class="card-title">@book.Title - @book.Author.Name</h5>
