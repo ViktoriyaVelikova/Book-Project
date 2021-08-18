@@ -4,39 +4,50 @@ using Microsoft.AspNetCore.Mvc;
 using BookBeing.Data;
 using BookBeing.Models;
 using BookBeing.Models.Books;
-
+using BookBeing.Services.Home;
+using BookBeing.Models.Home;
+using System.Collections.Generic;
 
 namespace BookBeing.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly BookBeingDbContext data;
+        private readonly IHomeService books;
 
-        public HomeController(BookBeingDbContext data)
+        public HomeController(IHomeService books)
         {
-            this.data = data;
+            this.books = books;
         }
 
         public IActionResult Index()
         {
-            var books = this.data
-                .Books
-                .Where(b => b.Taken == false)
-                .OrderByDescending(b => b.Id)
-                .Select(b => new BookListingViewModel
+            var books = this.books.TakeThreeBooks();
+            List<BookIndexViewModel> result = new List<BookIndexViewModel>();
+            foreach (var book in books)
+            {
+                result.Add(new BookIndexViewModel
                 {
-                    Id = b.Id,
-                    Title = b.Title,
-                    Author = b.Author,
-                    Publisher = b.Publisher,
-                    ImageUrl = b.ImageUrl,
-                    Description = b.Description,
-                    Price = b.Price
-                })
-                .Take(3)
-                .ToList();
+                    Id = book.Id,
+                    Title = book.Title,
+                    Author = book.Author,
+                    Publisher = book.Publisher,
+                    CategoryId = book.CategoryId,
+                    Category = book.Category,
+                    ImageUrl = book.ImageUrl,
+                    Price = book.Price
+                });
+            }
+            //Id = b.Id,
+            //Title = b.Title,
+            //Author = b.Author,
+            //Publisher = b.Publisher,
+            //ImageUrl = b.ImageUrl,
+            //Description = b.Description,
+            //Price = b.Price
 
-            return View(books);
+
+            //BookIndexViewModel
+            return View(result);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

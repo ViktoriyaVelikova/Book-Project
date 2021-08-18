@@ -42,8 +42,6 @@ namespace BookBeing.Controllers
                 return View(book);
             }
 
-            //var category = books.GetCategory(book.CategoryId);
-
             this.books.Create(
                 book.Title,
                 book.Author,
@@ -59,7 +57,6 @@ namespace BookBeing.Controllers
 
         public IActionResult All([FromQuery] AllBooksQueryModel query)
         {
-            //Goal: all books and coun books
             var queryResult = this.books.All(
                 query.Category,
                 query.SearchTerms,
@@ -106,7 +103,6 @@ namespace BookBeing.Controllers
             });
         }
 
-
         [HttpPost]
         [Authorize]
         public IActionResult Edit(int id, BookFormModel book)
@@ -139,7 +135,6 @@ namespace BookBeing.Controllers
 
             return RedirectToAction(nameof(All));
         }
-
 
         public IActionResult Details(int id)
         {

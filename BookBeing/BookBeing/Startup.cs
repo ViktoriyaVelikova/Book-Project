@@ -3,6 +3,7 @@ using BookBeing.Data.Models;
 using BookBeing.Infrastructure;
 using BookBeing.Services.Announcements;
 using BookBeing.Services.Books;
+using BookBeing.Services.Home;
 using BookBeing.Services.Libraries;
 using BookBeing.Services.Users;
 using Microsoft.AspNetCore.Builder;
@@ -53,6 +54,7 @@ namespace BookBeing
             services.AddTransient<ILibraryServices, LibraryServices>();
             services.AddTransient<IAnnouncementService, AnnouncementService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IHomeService, HomeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
