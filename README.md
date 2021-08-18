@@ -14,6 +14,7 @@ Features:
 * Only registered libraries can add announcements
 * A library can change its data submitted during registration 
 * Only registered users can buy books that they have not uploaded(other users' books)
+* The bought book is no longer visible
 * Everyone can access the details of a book or announcement
 * Everyone can see the details of a book or announcement
 
