@@ -5,16 +5,17 @@ using BookBeing.Models.Libraries;
 using System.Linq;
 using BookBeing.Infrastructure;
 using BookBeing.Data.Models;
+using BookBeing.Services.Libraries;
 
 namespace BookBeing.Controllers
 {
     public class LibraryController : Controller
     {
-        private readonly BookBeingDbContext data;
+        private readonly ILibraryServices libraries;
 
-        public LibraryController(BookBeingDbContext data)
+        public LibraryController(ILibraryServices libraries)
         {
-            this.data = data;
+            this.libraries = libraries;
         }
 
         [Authorize]
@@ -28,34 +29,39 @@ namespace BookBeing.Controllers
         [Authorize]
         public IActionResult RegisterLibrary(AddLibraryFormModel library)
         {
-            var userExist = data.Libraries.Any(l => l.UserId == this.User.GetId());
-            if (!userExist)
+            var userExist = libraries.IsLibrary(this.User.GetId());
+
+            if (userExist)
             {
-                var newLibrary = new Library
-                {
-                    LibraryName = library.LibraryName,
-                    City = library.City,
-                    ZipCode = library.ZipCode,
-                    Address = library.Address,
-                    PhoneNumber = library.PhoneNumber,
-                    Email = library.Email,
-                    UserId = this.User.GetId()
-                };
-
-                data.Libraries.Add(newLibrary);
-                data.SaveChanges();
-
+                return RedirectToAction("All", "Announcement");
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(library);
             }
 
-            //TODO If you are already a Library? 
+            libraries.Create(
+                library.LibraryName,
+                library.City,
+                library.ZipCode,
+                library.Address,
+                library.PhoneNumber,
+                library.Email,
+                this.User.GetId());
+
             return RedirectToAction("All", "Announcement");
         }
 
         //[Authorize]
         //public IActionResult MyAnnouncements(string userId)
         //{
+        //    var userExist = libraries.IsLibrary(this.User.GetId());
+        //    if (!userExist)
+        //    {
+        //        return BadRequest();
+        //    }
         //    var library = this.data.Libraries.FirstOrDefault(l => l.UserId == userId);
-        //    List<Announcement> announcements = new List<Announcement>();
+
         //    if (library != null)
         //    {
         //        announcements = library.Announcements.ToList();

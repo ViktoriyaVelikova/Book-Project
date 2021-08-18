@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookBeing.Services.Announcements.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace BookBeing.Models.Announcements
         public int CurrentPage { get; set; } = 1;
         public int CountAnnouncements { get; set; }
         public string SearchTerms { get; set; }
-        public IEnumerable<AllAnnouncementsViewModel> Announcements { get; set; }
+        public IEnumerable<AnnouncementsServiceModel> Announcements { get; set; }
 
     }
 }

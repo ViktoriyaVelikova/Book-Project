@@ -1,28 +1,26 @@
 ﻿using BookBeing.Data;
-using BookBeing.Data.Models;
 using BookBeing.Infrastructure;
 using BookBeing.Models.Announcements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using BookBeing.Services.Announcements;
 
 namespace BookBeing.Controllers
 {
     public class AnnouncementController : Controller
     {
-        private readonly BookBeingDbContext data;
+        private readonly IAnnouncementService announcements;
 
-        public AnnouncementController(BookBeingDbContext data)
+        public AnnouncementController(BookBeingDbContext data, IAnnouncementService announcements)
         {
-            this.data = data;
+            this.announcements = announcements;
         }
 
         [Authorize]
         public IActionResult AddAnnouncement()
         {
             var userId = this.User.GetId();
-            var library = data.Libraries.FirstOrDefault(l => l.UserId == userId);
-            if (library == null)
+            if (!announcements.IsLibrary(userId))
             {
                 return RedirectToAction(nameof(LibraryController.RegisterLibrary), "Library");
             }
@@ -31,61 +29,92 @@ namespace BookBeing.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult AddAnnouncement(AddAnnouncementFormModel AddAnnouncemen)
+        public IActionResult AddAnnouncement(AnnouncementFormModel AddAnnouncemen)
         {
-            var userId = this.User.GetId();
-            var library = data.Libraries.FirstOrDefault(l => l.UserId == userId);
-            if (library != null)
+            if (!ModelState.IsValid)
             {
-                var announcement = new Announcement
-                {
-                    Text = AddAnnouncemen.Text,
-                    LibraryId = library.Id,
-                    Library = library
-                };
-                data.Announcements.Add(announcement);
-                data.SaveChanges();
+                return View(AddAnnouncemen);
+            }
+
+            var userId = this.User.GetId();
+
+            if (this.announcements.IsLibrary(userId))
+            {
+                announcements.Create(AddAnnouncemen.Text, userId);
                 return RedirectToAction("All");
             }
-            //TODO: If library is Null => you are not a Librari? Probably add text field to the model?
-            //TODO: Use any and method bool for "if exist"
+
             return RedirectToAction(nameof(LibraryController.RegisterLibrary), "Library");
         }
 
         public IActionResult All([FromQuery] AllAnnouncementsQueryModel query)
         {
-            var announcements = this.data.Announcements.AsQueryable();
-            var libraries = this.data.Libraries.AsQueryable();
-
-            if (!string.IsNullOrWhiteSpace(query.SearchTerms))
-            {
-                announcements = announcements
-                    .Where(a => (
-                    a.Library.City + " " + a.Library.LibraryName + " " + a.Library.ZipCode).ToLower().Contains(query.SearchTerms.ToLower()) ||
-                    a.Text.ToLower().Contains(query.SearchTerms.ToLower()));
-            }
-
-            var countAnnouncements = announcements.Count();
-
-            var announcementsToView = announcements
-                .Skip((query.CurrentPage - 1) * AllAnnouncementsQueryModel.AnnouncementsPerPage)
-                 .Take(AllAnnouncementsQueryModel.AnnouncementsPerPage)
-                 .Select(a => new AllAnnouncementsViewModel
-                 {
-                     Id = a.Id,
-                     LibraryId = a.LibraryId,
-                     Library = libraries.FirstOrDefault(x => x.Id == a.Id)
-                 })
-                .ToList();
-            query.Announcements = announcementsToView;
-            query.CountAnnouncements = countAnnouncements;
+            var all = announcements.All(query.SearchTerms, query.CurrentPage, AllAnnouncementsQueryModel.AnnouncementsPerPage);
+            query.Announcements = all.Announcements;
+            query.CountAnnouncements = all.CountAnnouncements;
 
 
             return View(query);
         }
-        //public IActionResult Details(int id)
-        //{
 
-        //}
+
+        public IActionResult Details(int id)
+        {
+            var userId = this.User.GetId();
+            var library = this.announcements.GetLibrary(userId);
+            var text = this.announcements.GetAnnoncementText(id);
+
+            return View(new AnnouncementViewModel
+            {
+                Id = id,
+                Text = text,
+                Library = library,
+                LibraryId = library.Id,
+                IsByUser = this.announcements.IsByUser(userId, id)
+            });
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var userId = this.User.GetId();
+            if (!announcements.IsByUser(userId, id))
+            {
+                return Unauthorized();
+            }
+            var text = this.announcements.GetAnnoncementText(id);
+            return View(new AnnouncementFormModel { Text = text });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Edit(int id, AnnouncementFormModel announcement)
+        {
+            var userId = this.User.GetId();
+            if (!announcements.IsByUser(userId, id))
+            {
+                return Unauthorized();
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(announcement);
+            }
+            this.announcements.Edit(id, announcement.Text);
+
+            return RedirectToAction("Details", "Announcement", new { @id = id });
+
+        }
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            var userId = this.User.GetId();
+            if (!announcements.IsByUser(userId, id))
+            {
+                return Unauthorized();
+            }
+
+            this.announcements.DeleteAnnoncement(id);
+            return RedirectToAction(nameof(All));
+        }
     }
 }

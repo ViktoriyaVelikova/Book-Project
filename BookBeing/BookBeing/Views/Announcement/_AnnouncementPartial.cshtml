@@ -1,0 +1,18 @@
+﻿@model AnnouncementFormModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2 class="add-book">Announcement Form</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="Text"></label>
+                    <textarea asp-for="Text" rows="4" class="form-control" placeholder="The book is like new. It is a novel about..."></textarea>
+                    <span asp-validation-for="Text" class="alert-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

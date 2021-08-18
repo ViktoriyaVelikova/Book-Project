@@ -109,6 +109,7 @@ namespace BookBeing.Services.Books
                 Author = b.Author,
                 Publisher = b.Publisher,
                 CategoryId = b.CategoryId,
+                Category = b.Category,
                 ImageUrl = b.ImageUrl,
                 Description = b.Description,
                 Price = b.Price,
@@ -145,7 +146,7 @@ namespace BookBeing.Services.Books
             return newBook.Id;
         }
 
-        public bool Edit(int bookId, string title, Author author, Publisher publisher, string imageUrl, string description, Category category, decimal price)
+        public bool Edit(int bookId, string title, Author author, Publisher publisher, string imageUrl, string description, int categoryId, Category category, decimal price)
         {
             var book = this.data.Books.Find(bookId);
             if (book == null)
@@ -158,11 +159,9 @@ namespace BookBeing.Services.Books
             book.Publisher = publisher;
             book.ImageUrl = imageUrl;
             book.Description = description;
-            book.Category = category;
+            book.CategoryId = categoryId;
             book.Price = price;
             book.Taken = false;
-            //book.UserId = userId;
-
 
             data.SaveChanges();
 
@@ -177,6 +176,39 @@ namespace BookBeing.Services.Books
         public Category GetCategory(int categoriId)
         {
             return this.data.Categories.FirstOrDefault(c => c.Id == categoriId);
+        }
+
+        public bool BuyBook(int bookId, string user)
+        {
+            var book = FindBook(bookId);
+            if (book == null)
+            {
+                return false;
+            }
+            var userApp = this.data.Users.FirstOrDefault(x => x.Id == user);
+            var userBooks = userApp.BoughtBooks.ToList();
+            userBooks.Add(book);
+            book.Taken = true;
+            data.SaveChanges();
+            return true;
+        }
+
+        public bool DeleteBook(int bookId)
+        {
+            var book = FindBook(bookId);
+            if (book == null)
+            {
+                return false;
+            }
+            this.data.Books.Remove(book);
+            data.SaveChanges();
+            return true;
+        }
+
+
+        private Book FindBook(int bookId)
+        {
+            return this.data.Books.FirstOrDefault(b => b.Id == bookId);
         }
     }
 }

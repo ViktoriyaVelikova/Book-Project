@@ -4,14 +4,12 @@ using BookBeing.Data.Models;
 
 namespace BookBeing.Models.Announcements
 {
-    public class AddAnnouncementFormModel
+    public class AnnouncementFormModel
     {
         [MaxLength(MaxLenghtText)]
         [MinLength(MinLenghtText)]
         [Required]
         public string Text { get; set; }
 
-        public int LibraryId { get; set; }
-        public Library Library { get; set; }
     }
 }

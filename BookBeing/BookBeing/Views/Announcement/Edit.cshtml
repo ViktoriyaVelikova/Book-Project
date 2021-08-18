@@ -1,10 +1,10 @@
 ﻿@model AnnouncementFormModel
 @{
-    ViewData["Title"] = "Add Announcement";
+    ViewData["Title"] = "Edit Announcement";
 }
 
 
-<partial name="_AnnouncementPartial" model="@Model.Text" />
+<partial name="_AnnouncementPartial" model="@Model" />
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

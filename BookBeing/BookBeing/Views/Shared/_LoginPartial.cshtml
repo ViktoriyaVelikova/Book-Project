@@ -3,20 +3,20 @@
 @using BookBeing.Infrastructure
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-@inject ILibraryServices Library
+@inject IUserService TheUser
 
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         var UsetId = User.GetId();
-        var userIsLibrary = Library.IsLibrary(UsetId);
+        var userIsLibrary = TheUser.IsLibrary(UsetId);
         var usarAdmin = User.IsAdmin();
 
         @if (userIsLibrary && !usarAdmin)
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Announcement" asp-action="MyAnnouncements">Announcements</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Library" asp-action="MyAnnouncements">Announcements</a>
             </li>
         }
         @if (!usarAdmin)

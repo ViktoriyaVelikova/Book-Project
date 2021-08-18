@@ -42,7 +42,7 @@ namespace BookBeing.Data.Models
         [Required]
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
-        public IEnumerable<Announcement> Announcements { get; set; } = new List<Announcement>();
+        public virtual IEnumerable<Announcement> Announcements { get; set; } = new List<Announcement>();
 
     }
 }

@@ -1,8 +1,6 @@
 ﻿using BookBeing.Data;
-using System;
-using System.Collections.Generic;
+using BookBeing.Data.Models;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookBeing.Services.Libraries
 {
@@ -20,5 +18,29 @@ namespace BookBeing.Services.Libraries
             return this.data.Libraries.Any(l => l.UserId == userId);
 
         }
+
+        public int Create(string name, string city, string zipCode, string address, string phoneNumber, string email, string userId)
+        {
+            var library = new Library
+            {
+                LibraryName = name,
+                City = city,
+                ZipCode = zipCode,
+                Address = address,
+                PhoneNumber = phoneNumber,
+                Email = email,
+                UserId = userId
+
+            };
+
+            this.data.Libraries.Add(library);
+
+            data.SaveChanges();
+
+            return library.Id;
+        }
+
+        //IEnumerable<BookCategoryServiceModel> GetBooksCategories(string userId);
+
     }
 }

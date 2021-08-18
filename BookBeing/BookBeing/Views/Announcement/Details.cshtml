@@ -1,0 +1,48 @@
+﻿
+@model AnnouncementViewModel
+@{
+    ViewData["Title"] = "Announcement Details";
+}
+
+<div class="card">
+    <div class="row">
+        <aside class="col-sm-7">
+            <article class="card-body p-5">
+                <h3 class="title mb-3">@Model.Library.LibraryName</h3>
+                <dl class="item-property">
+                    <dt>Description</dt>
+                    <dd>
+                        <p>
+                            @Model.Text
+                        </p>
+                    </dd>
+                </dl>
+                <dl class="param param-feature">
+                    <dt>Phone Number</dt>
+                    <dd>@Model.Library.PhoneNumber</dd>
+                </dl>  <!-- item-property-hor .// -->
+                <dl class="param param-feature">
+                    <dt>Email</dt>
+                    <dd>@Model.Library.Email</dd>
+                </dl>  <!-- item-property-hor .// -->
+                <dl class="param param-feature">
+                    <dt>City</dt>
+                    <dd>@Model.Library.City</dd>
+                </dl>  <!-- item-property-hor .// -->
+                <dl class="param param-feature">
+                    <dt>Zip Code</dt>
+                    <dd>@Model.Library.ZipCode</dd>
+                </dl>  <!-- item-property-hor .// -->
+                <dl class="param param-feature">
+                    <dt>Address</dt>
+                    <dd>@Model.Library.Address</dd>
+                </dl>  <!-- item-property-hor .// -->
+                @if (Model.IsByUser || User.IsAdmin())
+                {
+                    <a asp-controller="Announcement" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Edit</a>
+                    <a asp-controller="Announcement" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                }
+            </article> <!-- card-body.// -->
+        </aside> <!-- col.// -->
+    </div> <!-- row.// -->
+</div> 

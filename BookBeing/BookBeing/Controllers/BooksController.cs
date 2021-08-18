@@ -1,12 +1,8 @@
-﻿using BookBeing.Data;
-using BookBeing.Data.Models;
-using BookBeing.Infrastructure;
+﻿using BookBeing.Infrastructure;
 using BookBeing.Models.Books;
 using BookBeing.Services.Books;
-using BookBeing.Services.Books.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 
 namespace BookBeing.Controllers
@@ -63,6 +59,7 @@ namespace BookBeing.Controllers
 
         public IActionResult All([FromQuery] AllBooksQueryModel query)
         {
+            //Goal: all books and coun books
             var queryResult = this.books.All(
                 query.Category,
                 query.SearchTerms,
@@ -78,7 +75,6 @@ namespace BookBeing.Controllers
 
             return View(query);
         }
-
 
         [Authorize]
         public IActionResult MyBooks()
@@ -139,15 +135,60 @@ namespace BookBeing.Controllers
                  book.Publisher,
                  book.ImageUrl,
                  book.Description,
+                 book.CategoryId,
                  book.Category,
                  book.Price);
 
             return RedirectToAction(nameof(All));
         }
 
-        //public IActionResult Details(int id)
-        //{
 
-        //}
+        public IActionResult Details(int id)
+        {
+            var book = books.Details(id);
+
+            return View(new BookDetailsModel
+            {
+                Id = id,
+                Title = book.Title,
+                Author = book.Author,
+                Publisher = book.Publisher,
+                ImageUrl = book.ImageUrl,
+                Description = book.Description,
+                Price = book.Price,
+                CategoryId = book.CategoryId,
+                Category = book.Category,
+                IsByUser = books.BookIsByUser(this.User.GetId(), id)
+            });
+
+        }
+
+        [Authorize]
+        public IActionResult Buy(int id)
+        {
+            if (books.BookIsByUser(this.User.GetId(), id) && User.IsAdmin())
+            {
+                return BadRequest();
+            }
+
+            var user = this.User.GetId();
+            books.BuyBook(id, user);
+
+            return RedirectToAction(nameof(All));
+        }
+
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            if (!books.BookIsByUser(this.User.GetId(), id) && !User.IsAdmin())
+            {
+                return BadRequest();
+            }
+
+            this.books.DeleteBook(id);
+
+            return RedirectToAction(nameof(All));
+        }
+
     }
 }
