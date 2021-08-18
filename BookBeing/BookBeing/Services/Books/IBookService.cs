@@ -16,7 +16,7 @@ namespace BookBeing.Services.Books
         IEnumerable<string> AllBookCatrgories();
         IEnumerable<BookServiceModel> AllBooksByUser(string userId);
         IEnumerable<BookCategoryServiceModel> GetBooksCategories();
-        Category GetCategory(int categoriId);
+        //Category GetCategory(int categoriId);
         BookDetailsServiceModel Details(int bookId);
         bool CategoryExist(int categoryId);
         bool BookIsByUser(string userId, int bookId);

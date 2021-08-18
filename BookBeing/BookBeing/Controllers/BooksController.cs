@@ -42,7 +42,7 @@ namespace BookBeing.Controllers
                 return View(book);
             }
 
-            var category = books.GetCategory(book.CategoryId);
+            //var category = books.GetCategory(book.CategoryId);
 
             this.books.Create(
                 book.Title,
@@ -122,7 +122,7 @@ namespace BookBeing.Controllers
                 return View(book);
             }
 
-            var category = books.GetCategory(book.CategoryId);
+            //var category = books.GetCategory(book.CategoryId);
 
             if (!books.BookIsByUser(this.User.GetId(), id) && !User.IsAdmin())
             {
