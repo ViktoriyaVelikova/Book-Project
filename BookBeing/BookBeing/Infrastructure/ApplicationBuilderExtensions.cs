@@ -45,7 +45,7 @@ namespace BookBeing.Infrastructure
 
             data.Categories.AddRange(new[]
             {
-               new Category{ Name="Fantasy"},
+                new Category{ Name="Fantasy"},
                 new Category{ Name="Mystery" },
                 new Category{ Name="Thriller" },
                 new Category{ Name="Romance" },

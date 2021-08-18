@@ -8,7 +8,7 @@ namespace BookBeing.Data
             public const int MaxLenghtTitle = 100;
             public const int MinLenghtTitle = 2;
 
-            public const int MaxLenghtDescription = 200;
+            public const int MaxLenghtDescription = 2000;
             public const int MinLenghtDescription = 2;
 
             public const int MaxPrice = 10000;

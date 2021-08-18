@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<BookServiceModel>
 
-@if (!Model.Any())
+@*@if (!Model.Any())
 {
     <h3>You don't have books yet.</h3>
-}
+}*@
 <div class="container" style="position:center">
     @foreach (var book in Model)
     {
