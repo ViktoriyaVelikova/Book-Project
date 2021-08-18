@@ -62,7 +62,12 @@ namespace BookBeing.Controllers
         {
             var userId = this.User.GetId();
             var text = this.announcements.GetAnnoncementText(id);
-            var librariInfo = this.announcements.GetLibraryInfo(userId);
+            var librariInfo = this.announcements.GetLibraryInfo(id);
+            var isByUser = this.announcements.IsByUser(userId, id);
+            if (this.User.IsAdmin())
+            {
+                isByUser = true;
+            }
             return View(new AnnouncementViewModel
             {
                 Id = id,
@@ -74,7 +79,7 @@ namespace BookBeing.Controllers
                 LibraryAddress = librariInfo.LibraryAddress,
                 LibraryPhoneNumber = librariInfo.LibraryPhoneNumber,
                 LibraryEmail = librariInfo.LibraryEmail,
-                IsByUser = this.announcements.IsByUser(userId, id)
+                IsByUser = isByUser
             });
         }
 

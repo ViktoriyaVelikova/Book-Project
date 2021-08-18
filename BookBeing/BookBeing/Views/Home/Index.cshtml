@@ -7,18 +7,21 @@
 <div class="card bg-light text-white box-shadow" id="header-index">
     <img class="card-img" src="/book.jpg" alt="Card-image">
     <div class="card-img-overlay">
-        <div style="text-align:center; background-color:rgba(215, 214, 213, 0.39);">
-            <h2 class="card-title" style="text-shadow: 0 0 0.15em #b8b8b8;  ">Welcome to our free space for giving or selling books.</h2>
-            <p class="card-text" style="font-size:20px; text-shadow: 1px 1px 1px #9c9c9c;">Here you can give or sell the books you keep at home and you do not know what to do with them.</p>
+        <div style="text-align:center; background-color:rgba(215, 214, 213, 0.39); margin-bottom:20px; border-radius:7px;">
+            <h2 class="card-title" style="text-shadow: 2px 4px 3px rgba(0,0,0,0.3);  ">Welcome to our free space for donating or selling books.</h2>
+            <p class="card-text" style="font-size:20px; text-shadow: 2px 4px 3px rgba(0,0,0,0.3);">Here you can give or sell the books you keep at home and you do not know what to do with them.</p>
+
         </div>
 
         @if (!Model.Any())
         {
-            <div style="text-align:center; background-color:rgba(215, 214, 213, 0.39);">
-                <p>At the moment we do not have registered books. Be the first to register.</p>
-                <p class="lead">
+            <div  class="col-md-4" style="text-align:left; background-color:rgba(215, 214, 213, 0.39); margin:10px; border-radius:7px;">
+                <br />
+                <p style="text-shadow: 2px 4px 3px rgb(128, 128, 128); ">At the moment we do not have registered books. Be the first to register.</p>
+                <p class="lead" style=" margin-bottom: 10px;">
                     <a asp-controller="Books" asp-action="Add" class="btn btn-light" role="button">Add Book</a>
                 </p>
+                <br />
             </div>
         }
     </div>

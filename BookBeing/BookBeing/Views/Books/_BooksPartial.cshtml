@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<BookServiceModel>
 
 <div class="container" style="">
+    @if (!Model.Any())
+    {
+        <h3 style="text-align:center;">No books found!</h3>
+    }
     @foreach (var book in Model)
     {
         <div class="card box-shadow row mx-md-4" style="width: 18rem; display:inline-block; height: 450px; overflow: hidden; margin:10px; grid-gap:55px;">

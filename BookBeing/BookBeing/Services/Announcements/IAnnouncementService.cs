@@ -13,7 +13,7 @@ namespace BookBeing.Services.Announcements
 
         public bool Edit(int announcementId, string text);
 
-        AnnouncementsLibraryServiceModel GetLibraryInfo(string userId);
+        AnnouncementsLibraryServiceModel GetLibraryInfo(int id);
 
         string GetAnnoncementText(int id);
 

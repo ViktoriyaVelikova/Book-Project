@@ -115,16 +115,18 @@ namespace BookBeing.Services.Announcements
             return true;
         }
 
-        public AnnouncementsLibraryServiceModel GetLibraryInfo(string userId)
+        public AnnouncementsLibraryServiceModel GetLibraryInfo(int id)
         {
-            var library = this.data.Libraries.FirstOrDefault(l => l.UserId == userId);
+            var announcement = this.data.Announcements.FirstOrDefault(l => l.Id == id);
+            var libraryId = announcement.LibraryId;
+            var library= this.data.Libraries.FirstOrDefault(l => l.Id == libraryId);
 
             return new AnnouncementsLibraryServiceModel
             {
                 LibraryId = library.Id,
                 LibraryName = library.LibraryName,
                 LibraryZipCode = library.ZipCode,
-                LibraryCity=library.City,
+                LibraryCity = library.City,
                 LibraryAddress = library.Address,
                 LibraryPhoneNumber = library.PhoneNumber,
                 LibraryEmail = library.Email
