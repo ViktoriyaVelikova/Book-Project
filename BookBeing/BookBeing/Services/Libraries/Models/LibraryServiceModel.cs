@@ -23,7 +23,7 @@ namespace BookBeing.Services.Libraries.Models
         public string Email { get; set; }
 
         public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        //public ApplicationUser User { get; set; }
         //public virtual IEnumerable<Announcement> Announcements { get; set; } = new List<Announcement>();
     }
 }

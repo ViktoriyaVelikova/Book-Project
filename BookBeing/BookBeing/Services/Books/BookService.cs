@@ -173,11 +173,6 @@ namespace BookBeing.Services.Books
             return data.Books.Any(b => b.Id == bookId && b.UserId == userId);
         }
 
-        //public Category GetCategory(int categoriId)
-        //{
-        //    return this.data.Categories.FirstOrDefault(c => c.Id == categoriId);
-        //}
-
         public bool BuyBook(int bookId, string user)
         {
             var book = FindBook(bookId);

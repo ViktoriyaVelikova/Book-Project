@@ -1,5 +1,7 @@
 ﻿using BookBeing.Data;
 using BookBeing.Data.Models;
+using BookBeing.Models.Libraries;
+using BookBeing.Services.Libraries.Models;
 using System.Linq;
 
 namespace BookBeing.Services.Libraries
@@ -39,8 +41,39 @@ namespace BookBeing.Services.Libraries
 
             return library.Id;
         }
+        public bool Edit(string userId, string libraryName, string city, string zipCode, string address, string phoneNumber, string email)
+        {
+            var library = this.data.Libraries.FirstOrDefault(l => l.UserId == userId);
+            if (library == null)
+            {
+                return false;
+            }
 
-        //IEnumerable<BookCategoryServiceModel> GetBooksCategories(string userId);
+            library.LibraryName = libraryName;
+            library.City = city;
+            library.ZipCode = zipCode;
+            library.Address = address;
+            library.PhoneNumber = phoneNumber;
+            library.Email = email;
+            data.SaveChanges();
 
+            return true;
+        }
+
+        public LibraryServiceModel LibraryInfo(string userId)
+        {
+            var library = this.data.Libraries.FirstOrDefault(l => l.UserId == userId);
+
+            return new LibraryServiceModel
+            {
+                Id = library.Id,
+                LibraryName = library.LibraryName,
+                City = library.City,
+                ZipCode = library.ZipCode,
+                Address = library.Address,
+                PhoneNumber = library.PhoneNumber,
+                Email = library.Email
+            };
+        }
     }
 }

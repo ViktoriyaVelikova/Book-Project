@@ -122,8 +122,6 @@ namespace BookBeing.Controllers
                 return View(book);
             }
 
-            //var category = books.GetCategory(book.CategoryId);
-
             if (!books.BookIsByUser(this.User.GetId(), id) && !User.IsAdmin())
             {
                 return BadRequest();
