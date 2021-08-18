@@ -61,15 +61,19 @@ namespace BookBeing.Controllers
         public IActionResult Details(int id)
         {
             var userId = this.User.GetId();
-            var library = this.announcements.GetLibrary(userId);
             var text = this.announcements.GetAnnoncementText(id);
-
+            var librariInfo = this.announcements.GetLibraryInfo(userId);
             return View(new AnnouncementViewModel
             {
                 Id = id,
                 Text = text,
-                Library = library,
-                LibraryId = library.Id,
+                LibraryId = librariInfo.LibraryId,
+                LibraryName = librariInfo.LibraryName,
+                LibraryZipCode = librariInfo.LibraryZipCode,
+                LibraryCity = librariInfo.LibraryCity,
+                LibraryAddress = librariInfo.LibraryAddress,
+                LibraryPhoneNumber = librariInfo.LibraryPhoneNumber,
+                LibraryEmail = librariInfo.LibraryEmail,
                 IsByUser = this.announcements.IsByUser(userId, id)
             });
         }

@@ -1,12 +1,7 @@
 ﻿using BookBeing.Data;
 using BookBeing.Data.Models;
-using BookBeing.Models.Announcements;
-using BookBeing.Services.Announcements;
 using BookBeing.Services.Announcements.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookBeing.Services.Announcements
 {
@@ -87,11 +82,6 @@ namespace BookBeing.Services.Announcements
             return library.UserId == userId;
         }
 
-        public Library GetLibrary(string userId)
-        {
-            return this.data.Libraries.FirstOrDefault(l => l.UserId == userId);
-        }
-
         public string GetAnnoncementText(int id)
         {
             return this.data.Announcements.FirstOrDefault(a => a.Id == id).Text;
@@ -125,5 +115,20 @@ namespace BookBeing.Services.Announcements
             return true;
         }
 
+        public AnnouncementsLibraryServiceModel GetLibraryInfo(string userId)
+        {
+            var library = this.data.Libraries.FirstOrDefault(l => l.UserId == userId);
+
+            return new AnnouncementsLibraryServiceModel
+            {
+                LibraryId = library.Id,
+                LibraryName = library.LibraryName,
+                LibraryZipCode = library.ZipCode,
+                LibraryCity=library.City,
+                LibraryAddress = library.Address,
+                LibraryPhoneNumber = library.PhoneNumber,
+                LibraryEmail = library.Email
+            };
+        }
     }
 }

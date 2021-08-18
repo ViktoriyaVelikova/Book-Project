@@ -1,10 +1,4 @@
-﻿using BookBeing.Data.Models;
-using BookBeing.Models.Announcements;
-using BookBeing.Services.Announcements.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BookBeing.Services.Announcements.Models;
 
 namespace BookBeing.Services.Announcements
 {
@@ -17,9 +11,9 @@ namespace BookBeing.Services.Announcements
             int currentPage,
             int announcementsPerPage);
 
-        public bool Edit(int announcement, string text);
+        public bool Edit(int announcementId, string text);
 
-        Library GetLibrary(string id);
+        AnnouncementsLibraryServiceModel GetLibraryInfo(string userId);
 
         string GetAnnoncementText(int id);
 

@@ -1,10 +1,8 @@
 ﻿
-namespace BookBeing.Models.Announcements
+namespace BookBeing.Services.Announcements.Models
 {
-    public class AnnouncementViewModel
+    public class AnnouncementsLibraryServiceModel
     {
-        public int Id { get; init; }
-        public string Text { get; init; }
         public int LibraryId { get; set; }
         public string LibraryName { get; set; }
         public string LibraryZipCode { get; set; }
@@ -12,6 +10,5 @@ namespace BookBeing.Models.Announcements
         public string LibraryAddress { get; set; }
         public string LibraryPhoneNumber { get; set; }
         public string LibraryEmail { get; set; }
-        public bool IsByUser { get; set; }
     }
 }

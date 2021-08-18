@@ -8,7 +8,7 @@
     <div class="row">
         <aside class="col-sm-7">
             <article class="card-body p-5">
-                <h3 class="title mb-3">@Model.Library.LibraryName</h3>
+                <h3 class="title mb-3">@Model.LibraryName</h3>
                 <dl class="item-property">
                     <dt>Description</dt>
                     <dd>
@@ -19,23 +19,23 @@
                 </dl>
                 <dl class="param param-feature">
                     <dt>Phone Number</dt>
-                    <dd>@Model.Library.PhoneNumber</dd>
+                    <dd>@Model.LibraryPhoneNumber</dd>
                 </dl>  <!-- item-property-hor .// -->
                 <dl class="param param-feature">
                     <dt>Email</dt>
-                    <dd>@Model.Library.Email</dd>
+                    <dd>@Model.LibraryEmail</dd>
                 </dl>  <!-- item-property-hor .// -->
                 <dl class="param param-feature">
                     <dt>City</dt>
-                    <dd>@Model.Library.City</dd>
+                    <dd>@Model.LibraryCity</dd>
                 </dl>  <!-- item-property-hor .// -->
                 <dl class="param param-feature">
                     <dt>Zip Code</dt>
-                    <dd>@Model.Library.ZipCode</dd>
+                    <dd>@Model.LibraryZipCode</dd>
                 </dl>  <!-- item-property-hor .// -->
                 <dl class="param param-feature">
                     <dt>Address</dt>
-                    <dd>@Model.Library.Address</dd>
+                    <dd>@Model.LibraryAddress</dd>
                 </dl>  <!-- item-property-hor .// -->
                 @if (Model.IsByUser || User.IsAdmin())
                 {
