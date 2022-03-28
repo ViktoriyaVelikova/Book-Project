@@ -4,7 +4,7 @@ ASP.NET Core Individual Project Assignment
 About The Project
 ------------
 It is a application where users can sell, buy or donate books. 
-There are three of users: 
+There are three types of users: 
  * Ordinary users - can sell, buy books, manage their books 
  * Libraries - can add announcements in section and manage them
  * Administrator - has full rights to all features 
